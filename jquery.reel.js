@@ -738,7 +738,7 @@ jQuery.reel || (function($, window, document, undefined){
     }
   }
 
-  $.reel.touchy= (/iphone|ipod|ipad|android/i).test(navigator.userAgent);
+  $.reel.touchy= (/iphone|ipod|ipad/i).test(navigator.userAgent);
   $.reel.lazy= (/iphone|ipod|android/i).test(navigator.userAgent);
 
   $.reel.instances= $();
