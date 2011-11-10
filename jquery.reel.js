@@ -815,5 +815,5 @@ jQuery.reel || (function($, window, document, undefined){
     function pretend(){ if (!$.fn[this]) $.fn[this]= function(){ return this }}
   }
   function negative_when(value, condition){ return abs(value) * (condition ? -1 : 1) }
-  function finger(e){ return e.originalEvent.touches[0] }
+  function finger(e){ return e.originalEvent.touches[0] || e.originalEvent }
 })(jQuery, window, document);
