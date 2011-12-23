@@ -697,7 +697,7 @@ jQuery.reel || (function($, window, document, undefined){
           clearTimeout(delay);
           pool.unbind(_tick_+'.opening', on.pool[_tick_+'.opening']);
           set(_opening_ticks_, 0);
-          t.trigger('play');
+          setTimeout(function(){ t.trigger('play') }, 0);
           return operated= -opt.timeout * leader(_tempo_)
         },
         panned= false,
