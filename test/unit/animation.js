@@ -170,4 +170,54 @@
     }
   });
 
+  asyncTest( 'Triggering `stop` event stops the instance instantly on the spot', function()
+  {
+    var
+      frames= 36,
+      frame= 1
+
+    expect(4 * frames);
+
+    try_frame_one_by_one();
+
+    function try_frame_one_by_one(){
+      var
+        $reel= $('#image').reel({
+          speed: 1,
+          delay: 0.05,
+          frame: frame - 5
+        })
+
+      $reel.bind('frameChange.test', function(e){
+        var
+          reel_frame= $reel.data('frame')
+
+        if (reel_frame == frame){
+          $reel.unbind('frameChange.test');
+          $reel.parent().bind('stop.test', function(){
+            ok( $reel.data('stopped'), 'Instance reports to be stopped');
+            ok( !$reel.data('playing'), 'Instance reports to not be playing')
+            equal( $reel.data('frame'), frame, 'Actual frame is spot on the target');
+
+            // After a while we double-check if it REALLY ain't moving
+            setTimeout(function(){
+              equal( $reel.data('frame'), frame, 'Verified not moving even after the delay')
+
+              // And reload new round
+              $reel.unbind('.test');
+              frame++;
+              if (frame <= frames) setTimeout(try_frame_one_by_one, 0)
+              else start();
+            }, 100);
+          });
+
+          // Firing the `stop` asynchronously in the next thread cycle
+          setTimeout(function(){
+            $reel.trigger('stop');
+          }, 5);
+        }
+      });
+    }
+  });
+
 })(jQuery);
